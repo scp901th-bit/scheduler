@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตารางงานพนักงาน - BP SNOOKER CLUB</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -55,6 +56,7 @@
         .tab-buttons {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -86,6 +88,59 @@
 
         .tab-content.active {
             display: block;
+        }
+
+        /* Export Buttons */
+        .export-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .export-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: #10B981;
+            color: #fff;
+            transition: all 0.15s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .export-btn:hover {
+            background: #059669;
+        }
+
+        .import-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: #3B82F6;
+            color: #fff;
+            transition: all 0.15s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .import-btn:hover {
+            background: #2563EB;
+        }
+
+        #importFile {
+            display: none;
         }
 
         /* Quick info bar */
@@ -599,6 +654,35 @@
             color: #fff;
         }
 
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10B981;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.3);
+            display: none;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -611,6 +695,15 @@
 
             table {
                 min-width: 500px;
+            }
+
+            .export-bar {
+                flex-direction: column;
+            }
+
+            .export-btn, .import-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -632,6 +725,13 @@
     <div class="container">
         <!-- Schedule Tab -->
         <div id="schedule" class="tab-content active">
+            <div class="export-bar">
+                <button class="export-btn" onclick="app.exportToExcel()">📊 Export XLSX</button>
+                <button class="import-btn" onclick="document.getElementById('importFile').click()">📁 Import JSON</button>
+                <button class="export-btn" onclick="app.exportToJson()" style="background: #8B5CF6;">💾 Backup JSON</button>
+                <input type="file" id="importFile" accept=".json" onchange="app.importFromJson(event)">
+            </div>
+
             <div class="info-bar">
                 <div class="chip"><span>📆</span> <span id="days-info">7 วัน/สัปดาห์</span></div>
                 <div class="chip"><span>👤</span> <span id="emp-info">3 พนักงาน</span></div>
@@ -693,6 +793,9 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
     <script>
         // Constants
         const DAY_NAMES = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."];
@@ -722,6 +825,14 @@
             const first = parts[0].slice(0, 4);
             const last = parts[parts.length - 1][0].toUpperCase();
             return `${first} ${last}.`;
+        }
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.style.background = type === "success" ? "#10B981" : "#EF4444";
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3000);
         }
 
         // Main App Object
@@ -870,6 +981,118 @@
             hidePopup() {
                 this.state.popup = null;
                 document.getElementById("popup").classList.remove("visible");
+            },
+
+            // Export to Excel
+            exportToExcel() {
+                const days = this.getDays();
+                const data = [];
+
+                // Header row
+                const header = ["ช่วงเวลา"];
+                days.forEach((d) => header.push(DAY_FULL[d]));
+                data.push(header);
+
+                // Data rows
+                this.state.shifts.forEach((shift) => {
+                    const row = [`${shift.label} (${shift.time})`];
+                    days.forEach((d, di) => {
+                        const emp = this.getCellEmp(di, shift.id);
+                        row.push(emp ? emp.name : "");
+                    });
+                    data.push(row);
+                });
+
+                // Add summary
+                data.push([]);
+                data.push(["สรุปกะพนักงาน"]);
+                const empShiftCount = {};
+                this.state.employees.forEach((e) => (empShiftCount[e.id] = 0));
+                Object.values(this.state.schedule).forEach((id) => {
+                    if (empShiftCount[id] !== undefined) empShiftCount[id]++;
+                });
+
+                this.state.employees.forEach((emp) => {
+                    data.push([emp.name, `${empShiftCount[emp.id] || 0} กะ`]);
+                });
+
+                // Create workbook
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "ตารางงาน");
+
+                // Set column width
+                ws["!cols"] = [
+                    { wch: 20 },
+                    ...days.map(() => ({ wch: 18 }))
+                ];
+
+                // Download
+                const filename = `ตารางงาน_${new Date().toLocaleDateString('th-TH')}.xlsx`;
+                XLSX.writeFile(wb, filename);
+                showToast("✅ Export XLSX สำเร็จ!");
+            },
+
+            // Export to JSON
+            exportToJson() {
+                const backup = {
+                    timestamp: new Date().toISOString(),
+                    daysPerWeek: this.state.daysPerWeek,
+                    startDay: this.state.startDay,
+                    employees: this.state.employees,
+                    shifts: this.state.shifts,
+                    schedule: this.state.schedule,
+                };
+
+                const json = JSON.stringify(backup, null, 2);
+                const blob = new Blob([json], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                showToast("💾 Backup JSON สำเร็จ!");
+            },
+
+            // Import from JSON
+            importFromJson(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        // Validate data
+                        if (!data.employees || !data.shifts || !data.schedule) {
+                            throw new Error("ไฟล์ JSON ไม่ถูกต้อง");
+                        }
+
+                        // Import
+                        this.state.daysPerWeek = data.daysPerWeek || 7;
+                        this.state.startDay = data.startDay || 1;
+                        this.state.employees = data.employees;
+                        this.state.shifts = data.shifts;
+                        this.state.schedule = data.schedule;
+
+                        // Update refs
+                        if (data.employees.length > 0) {
+                            this.state.empIdRef = Math.max(...data.employees.map(e => e.id)) + 1;
+                        }
+                        if (data.shifts.length > 0) {
+                            this.state.shiftIdRef = Math.max(...data.shifts.map(s => s.id)) + 1;
+                        }
+
+                        this.render();
+                        showToast("📁 Import JSON สำเร็จ!");
+                    } catch (error) {
+                        showToast("❌ " + error.message, "error");
+                    }
+                };
+                reader.readAsText(file);
+                event.target.value = "";
             },
 
             render() {
