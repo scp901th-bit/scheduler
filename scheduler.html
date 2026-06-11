@@ -765,4 +765,442 @@
             },
 
             getDays() {
-                return Array.from({ length: this.state.daysPerWee
+                return Array.from({ length: this.state.daysPerWeek }, (_, i) => (this.state.startDay + i) % 7);
+            },
+
+            assignEmployee(dayIdx, shiftId, empId) {
+                const key = this.cellKey(dayIdx, shiftId);
+                if (empId === null) {
+                    delete this.state.schedule[key];
+                } else {
+                    this.state.schedule[key] = empId;
+                }
+                this.hidePopup();
+                this.render();
+            },
+
+            addEmployee() {
+                const input = document.getElementById("newEmpName");
+                const name = input.value.trim();
+                if (!name) return;
+                this.state.empIdRef++;
+                this.state.employees.push({ id: this.state.empIdRef, name });
+                input.value = "";
+                this.render();
+            },
+
+            removeEmployee(id) {
+                this.state.employees = this.state.employees.filter((x) => x.id !== id);
+                Object.keys(this.state.schedule).forEach((k) => {
+                    if (this.state.schedule[k] === id) delete this.state.schedule[k];
+                });
+                this.render();
+            },
+
+            editEmployee(id) {
+                this.state.editingEmp = id;
+                const emp = this.state.employees.find((e) => e.id === id);
+                this.state.empEditVal = emp.name;
+                this.render();
+                setTimeout(() => {
+                    document.querySelector(`input[data-emp-edit="${id}"]`)?.focus();
+                }, 0);
+            },
+
+            saveEmployee(id) {
+                const emp = this.state.employees.find((e) => e.id === id);
+                if (emp) emp.name = this.state.empEditVal;
+                this.state.editingEmp = null;
+                this.render();
+            },
+
+            addShift() {
+                if (this.state.shifts.length >= 6) return;
+                const label = document.getElementById("newShiftLabel").value.trim();
+                const time = document.getElementById("newShiftTime").value.trim();
+                if (!label || !time) return;
+                this.state.shiftIdRef++;
+                this.state.shifts.push({ id: this.state.shiftIdRef, label, time });
+                document.getElementById("newShiftLabel").value = "";
+                document.getElementById("newShiftTime").value = "";
+                this.render();
+            },
+
+            removeShift(id) {
+                this.state.shifts = this.state.shifts.filter((x) => x.id !== id);
+                Object.keys(this.state.schedule).forEach((k) => {
+                    if (k.endsWith(`-${id}`)) delete this.state.schedule[k];
+                });
+                this.render();
+            },
+
+            editShift(id) {
+                this.state.editingShift = id;
+                const shift = this.state.shifts.find((s) => s.id === id);
+                this.state.shiftEditLabel = shift.label;
+                this.state.shiftEditTime = shift.time;
+                this.render();
+            },
+
+            saveShift(id) {
+                const shift = this.state.shifts.find((s) => s.id === id);
+                if (shift) {
+                    shift.label = this.state.shiftEditLabel;
+                    shift.time = this.state.shiftEditTime;
+                }
+                this.state.editingShift = null;
+                this.render();
+            },
+
+            setDaysPerWeek(days) {
+                this.state.daysPerWeek = days;
+                this.render();
+            },
+
+            setStartDay(day) {
+                this.state.startDay = day;
+                this.render();
+            },
+
+            showPopup(dayIdx, shiftId, x, y) {
+                this.state.popup = { dayIdx, shiftId, x, y };
+                this.renderPopup();
+            },
+
+            hidePopup() {
+                this.state.popup = null;
+                document.getElementById("popup").classList.remove("visible");
+            },
+
+            render() {
+                this.renderScheduleTab();
+                this.renderSettingsTab();
+                this.updateInfoBar();
+            },
+
+            renderScheduleTab() {
+                const days = this.getDays();
+                const headerRow = document.getElementById("headerRow");
+                const tableBody = document.getElementById("tableBody");
+
+                // Clear and rebuild header
+                headerRow.innerHTML = "<th>ช่วงเวลา</th>";
+                days.forEach((d, i) => {
+                    const th = document.createElement("th");
+                    th.innerHTML = `
+                        <div class="day-header-full">${DAY_FULL[d]}</div>
+                        <div class="day-header-abbr">${DAY_NAMES[d]}</div>
+                    `;
+                    headerRow.appendChild(th);
+                });
+
+                // Build body
+                tableBody.innerHTML = "";
+                if (this.state.shifts.length === 0) {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td colspan="${days.length + 1}" style="padding: 32px; text-align: center; color: #475569;">
+                            ยังไม่มีช่วงเวลา — ไปที่ ⚙️ ตั้งค่า เพื่อเพิ่ม
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                } else {
+                    this.state.shifts.forEach((shift, si) => {
+                        const sc = SHIFT_COLORS[si % SHIFT_COLORS.length];
+                        const tr = document.createElement("tr");
+                        
+                        // Shift label cell
+                        const labelTd = document.createElement("td");
+                        labelTd.innerHTML = `
+                            <div class="shift-label" style="background: ${sc.bg}; color: #fff;">${shift.label}</div>
+                            <div class="shift-time">${shift.time}</div>
+                        `;
+                        tr.appendChild(labelTd);
+
+                        // Day cells
+                        days.forEach((d, di) => {
+                            const td = document.createElement("td");
+                            const emp = this.getCellEmp(di, shift.id);
+                            
+                            const button = document.createElement("button");
+                            button.className = `cell-button ${emp ? "filled" : ""}`;
+                            if (emp) {
+                                const empColor = this.empColor(emp.id);
+                                button.style.background = empColor + "22";
+                                button.addEventListener("mouseenter", (e) => {
+                                    e.currentTarget.style.background = empColor + "44";
+                                });
+                                button.addEventListener("mouseleave", (e) => {
+                                    e.currentTarget.style.background = empColor + "22";
+                                });
+                            }
+
+                            if (emp) {
+                                button.innerHTML = `
+                                    <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
+                                    <div class="emp-name-cell" style="color: ${this.empColor(emp.id)};">${abbreviateName(emp.name)}</div>
+                                `;
+                            } else {
+                                button.innerHTML = '<div class="empty-cell-icon">+</div>';
+                            }
+
+                            button.addEventListener("click", (e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                this.showPopup(di, shift.id, rect.left, rect.bottom + window.scrollY + 6);
+                            });
+
+                            td.appendChild(button);
+                            tr.appendChild(td);
+                        });
+
+                        tableBody.appendChild(tr);
+                    });
+                }
+
+                // Summary section
+                this.renderSummary();
+            },
+
+            renderSummary() {
+                const empShiftCount = {};
+                this.state.employees.forEach((e) => (empShiftCount[e.id] = 0));
+                Object.values(this.state.schedule).forEach((id) => {
+                    if (empShiftCount[id] !== undefined) empShiftCount[id]++;
+                });
+
+                const summarySection = document.getElementById("summarySection");
+                if (this.state.employees.length === 0) {
+                    summarySection.innerHTML = "";
+                    return;
+                }
+
+                let html = '<div class="summary-title">สรุปกะพนักงาน</div><div class="summary-grid">';
+                this.state.employees.forEach((emp) => {
+                    html += `
+                        <div class="summary-item">
+                            <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
+                            <div>
+                                <div class="summary-emp-name">${abbreviateName(emp.name)}</div>
+                                <div class="summary-emp-count">${empShiftCount[emp.id] || 0} กะ</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += "</div>";
+                summarySection.innerHTML = html;
+            },
+
+            renderSettingsTab() {
+                // Days per week buttons
+                const daysPerWeekBtns = document.getElementById("daysPerWeekBtns");
+                daysPerWeekBtns.innerHTML = "";
+                [5, 6, 7].forEach((n) => {
+                    const btn = document.createElement("button");
+                    btn.className = `btn ${this.state.daysPerWeek === n ? "primary" : ""}`;
+                    btn.textContent = `${n} วัน`;
+                    btn.onclick = () => this.setDaysPerWeek(n);
+                    daysPerWeekBtns.appendChild(btn);
+                });
+
+                // Start day buttons
+                const startDayBtns = document.getElementById("startDayBtns");
+                startDayBtns.innerHTML = "";
+                DAY_FULL.forEach((d, i) => {
+                    const btn = document.createElement("button");
+                    btn.className = `day-btn ${this.state.startDay === i ? "active" : ""}`;
+                    btn.textContent = d;
+                    btn.onclick = () => this.setStartDay(i);
+                    startDayBtns.appendChild(btn);
+                });
+
+                // Employees list
+                const employeesList = document.getElementById("employeesList");
+                employeesList.innerHTML = "";
+                if (this.state.employees.length === 0) {
+                    employeesList.innerHTML = '<div class="empty-message">ยังไม่มีพนักงาน</div>';
+                } else {
+                    this.state.employees.forEach((emp) => {
+                        const div = document.createElement("div");
+                        div.className = "item";
+
+                        if (this.state.editingEmp === emp.id) {
+                            div.innerHTML = `
+                                <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
+                                <input type="text" class="edit-input" data-emp-edit="${emp.id}" value="${this.state.empEditVal}">
+                                <button class="btn sm save" onclick="app.handleEmpEditChange('${emp.id}', true)">บันทึก</button>
+                                <button class="btn sm" onclick="app.state.editingEmp = null; app.render();">ยกเลิก</button>
+                            `;
+                        } else {
+                            div.innerHTML = `
+                                <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
+                                <div class="item-info">
+                                    <div class="item-name">${emp.name}</div>
+                                    <div class="item-abbr">ย่อ: ${abbreviateName(emp.name)}</div>
+                                </div>
+                                <button class="btn sm" onclick="app.editEmployee(${emp.id})">แก้ไข</button>
+                                <button class="btn sm danger" onclick="app.removeEmployee(${emp.id})">ลบ</button>
+                            `;
+                        }
+                        employeesList.appendChild(div);
+                    });
+                }
+
+                // Shifts
+                const shiftsTitle = document.getElementById("shiftsTitle");
+                shiftsTitle.textContent = `⏱ ช่วงเวลา (${this.state.shifts.length}/6)`;
+
+                const shiftWarning = document.getElementById("shiftWarning");
+                if (this.state.shifts.length >= 6) {
+                    shiftWarning.innerHTML = '<div class="shift-limit-warning">⚠️ ถึงขีดจำกัด 6 ช่วงเวลาแล้ว</div>';
+                } else {
+                    shiftWarning.innerHTML = "";
+                }
+
+                const shiftInputs = document.getElementById("shiftInputs");
+                if (this.state.shifts.length < 6) {
+                    shiftInputs.innerHTML = `
+                        <div style="margin-bottom: 12px;">
+                            <div class="input-group">
+                                <input type="text" id="newShiftLabel" placeholder="ชื่อกะ เช่น เช้า">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="newShiftTime" placeholder="เวลา เช่น 08:00–17:00">
+                                <button class="btn success" onclick="app.addShift()">+</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    shiftInputs.innerHTML = "";
+                }
+
+                const shiftsList = document.getElementById("shiftsList");
+                shiftsList.innerHTML = "";
+                if (this.state.shifts.length === 0) {
+                    shiftsList.innerHTML = '<div class="empty-message">ยังไม่มีช่วงเวลา</div>';
+                } else {
+                    this.state.shifts.forEach((shift, si) => {
+                        const sc = SHIFT_COLORS[si % SHIFT_COLORS.length];
+                        const div = document.createElement("div");
+                        div.className = "shift-item";
+
+                        if (this.state.editingShift === shift.id) {
+                            div.innerHTML = `
+                                <div class="shift-color-bar" style="background: ${sc.bg};"></div>
+                                <input type="text" class="edit-input" value="${this.state.shiftEditLabel}" onchange="app.state.shiftEditLabel = this.value;">
+                                <input type="text" class="edit-input" value="${this.state.shiftEditTime}" onchange="app.state.shiftEditTime = this.value;" style="flex: 1;">
+                                <button class="btn sm save" onclick="app.saveShift(${shift.id})">บันทึก</button>
+                                <button class="btn sm" onclick="app.state.editingShift = null; app.render();">ยกเลิก</button>
+                            `;
+                        } else {
+                            div.innerHTML = `
+                                <div class="shift-color-bar" style="background: ${sc.bg};"></div>
+                                <div class="shift-item-info">
+                                    <div class="shift-item-label" style="color: ${sc.bg};">${shift.label}</div>
+                                    <div class="shift-item-time">${shift.time}</div>
+                                </div>
+                                <button class="btn sm" onclick="app.editShift(${shift.id})">แก้ไข</button>
+                                <button class="btn sm danger" onclick="app.removeShift(${shift.id})">ลบ</button>
+                            `;
+                        }
+                        shiftsList.appendChild(div);
+                    });
+                }
+            },
+
+            renderPopup() {
+                if (!this.state.popup) return;
+
+                const popup = this.state.popup;
+                const popupEl = document.getElementById("popup");
+                const content = document.getElementById("popupContent");
+
+                let html = `
+                    <button class="popup-btn clear" onclick="app.assignEmployee(${popup.dayIdx}, ${popup.shiftId}, null)">
+                        <span style="font-size: 16px;">✕</span> ว่าง (ลบออก)
+                    </button>
+                `;
+
+                this.state.employees.forEach((emp) => {
+                    const selected = this.state.schedule[this.cellKey(popup.dayIdx, popup.shiftId)] === emp.id;
+                    html += `
+                        <button class="popup-btn ${selected ? "selected" : ""}" onclick="app.assignEmployee(${popup.dayIdx}, ${popup.shiftId}, ${emp.id})">
+                            <div class="popup-emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
+                            <div class="popup-emp-info">
+                                <div class="popup-emp-full">${emp.name}</div>
+                                <div class="popup-emp-abbr">${abbreviateName(emp.name)}</div>
+                            </div>
+                            ${selected ? `<span class="popup-check" style="color: ${this.empColor(emp.id)};">✓</span>` : ""}
+                        </button>
+                    `;
+                });
+
+                if (this.state.employees.length === 0) {
+                    html = '<div class="popup-empty">ยังไม่มีพนักงาน</div>';
+                }
+
+                content.innerHTML = html;
+
+                const top = Math.min(popup.y, window.innerHeight - 320);
+                const left = Math.min(popup.x, window.innerWidth - 220);
+                popupEl.style.top = top + "px";
+                popupEl.style.left = left + "px";
+                popupEl.classList.add("visible");
+            },
+
+            updateInfoBar() {
+                document.getElementById("days-info").textContent = `${this.state.daysPerWeek} วัน/สัปดาห์`;
+                document.getElementById("emp-info").textContent = `${this.state.employees.length} พนักงาน`;
+                document.getElementById("shifts-info").textContent = `${this.state.shifts.length} ช่วงเวลา`;
+                document.getElementById("schedule-info").textContent = `${Object.keys(this.state.schedule).length} กะที่จัด`;
+            },
+
+            handleEmpEditChange(id, save) {
+                const input = document.querySelector(`input[data-emp-edit="${id}"]`);
+                if (input) {
+                    this.state.empEditVal = input.value;
+                }
+                if (save) {
+                    this.saveEmployee(id);
+                }
+            },
+
+            init() {
+                // Setup tab buttons
+                document.querySelectorAll(".tab-btn").forEach((btn) => {
+                    btn.addEventListener("click", (e) => {
+                        const tab = e.target.dataset.tab;
+                        this.state.activeTab = tab;
+
+                        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+                        document.querySelectorAll(".tab-content").forEach((tc) => tc.classList.remove("active"));
+
+                        e.target.classList.add("active");
+                        document.getElementById(tab).classList.add("active");
+                    });
+                });
+
+                // Setup popup close on outside click
+                document.addEventListener("mousedown", (e) => {
+                    const popup = document.getElementById("popup");
+                    if (popup && !popup.contains(e.target) && !e.target.closest(".cell-button")) {
+                        this.hidePopup();
+                    }
+                });
+
+                // Setup enter key for new employee
+                document.getElementById("newEmpName").addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") this.addEmployee();
+                });
+
+                // Initial render
+                this.render();
+            },
+        };
+
+        // Initialize
+        document.addEventListener("DOMContentLoaded", () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
