@@ -20,7 +20,6 @@
             color: #E2E8F0;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
             border-bottom: 1px solid #334155;
@@ -43,7 +42,6 @@
             letter-spacing: 3px;
             color: #64748B;
             text-transform: uppercase;
-            margin-bottom: 4px;
         }
 
         .header-title .title {
@@ -90,60 +88,50 @@
             display: block;
         }
 
-        /* Export Buttons */
         .export-bar {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            align-items: center;
         }
 
-        .export-btn {
+        .export-btn, .import-btn, .reset-btn {
             padding: 8px 16px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
             font-size: 13px;
             font-weight: 600;
-            background: #10B981;
             color: #fff;
             transition: all 0.15s;
             font-family: inherit;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
+        .export-btn {
+            background: #10B981;
+        }
         .export-btn:hover {
             background: #059669;
         }
 
         .import-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
             background: #3B82F6;
-            color: #fff;
-            transition: all 0.15s;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-
         .import-btn:hover {
             background: #2563EB;
+        }
+
+        .reset-btn {
+            background: #EF4444;
+        }
+        .reset-btn:hover {
+            background: #DC2626;
         }
 
         #importFile {
             display: none;
         }
 
-        /* Quick info bar */
         .info-bar {
             display: flex;
             gap: 12px;
@@ -155,15 +143,11 @@
             background: #1E293B;
             border: 1px solid #334155;
             border-radius: 20px;
-            padding: 5px 12px;
+            padding: 8px 14px;
             font-size: 12px;
             color: #94A3B8;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        /* Table */
         .table-wrapper {
             overflow-x: auto;
             border-radius: 12px;
@@ -223,1207 +207,604 @@
             background: #1A2744;
             border-left: none;
             text-align: left;
+            font-weight: 600;
         }
 
-        .shift-label {
-            display: inline-block;
-            border-radius: 6px;
-            padding: 3px 9px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 2px;
-        }
-
-        .shift-time {
-            font-size: 10px;
-            color: #64748B;
-            margin-top: 2px;
-        }
-
-        .cell-button {
+        .cell-btn {
             width: 100%;
-            min-height: 52px;
+            min-height: 60px;
             border: 2px dashed #334155;
             border-radius: 8px;
             background: transparent;
             cursor: pointer;
             transition: all 0.15s;
-            padding: 6px 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            font-family: inherit;
-        }
-
-        .cell-button:hover {
-            background: #334155;
-        }
-
-        .cell-button.filled {
-            border: none;
-        }
-
-        .emp-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .emp-name-cell {
-            font-size: 11px;
-            font-weight: 700;
-            max-width: 90px;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .empty-cell-icon {
-            color: #475569;
-            font-size: 18px;
-        }
-
-        /* Employee summary */
-        .summary-title {
-            font-size: 12px;
-            color: #64748B;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            margin-top: 20px;
-        }
-
-        .summary-grid {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .summary-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #1E293B;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 6px 12px;
-        }
-
-        .summary-emp-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #CBD5E1;
-        }
-
-        .summary-emp-count {
-            font-size: 10px;
-            color: #64748B;
-        }
-
-        /* Popup */
-        .popup {
-            position: fixed;
-            background: #1E293B;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.6);
-            z-index: 9999;
-            width: 200px;
-            overflow: hidden;
-            display: none;
-        }
-
-        .popup.visible {
-            display: block;
-        }
-
-        .popup-header {
-            padding: 10px 14px;
-            border-bottom: 1px solid #334155;
-            font-size: 11px;
-            font-weight: 700;
-            color: #64748B;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .popup-content {
-            max-height: 260px;
-            overflow-y: auto;
-        }
-
-        .popup-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            padding: 9px 14px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
             color: #E2E8F0;
-            font-size: 13px;
-            text-align: left;
             font-family: inherit;
-            transition: background 0.1s;
-        }
-
-        .popup-btn:hover {
-            background: #334155;
-        }
-
-        .popup-btn.clear {
-            color: #EF4444;
-        }
-
-        .popup-btn.clear:hover {
-            background: #2D1B1B;
-        }
-
-        .popup-btn.selected {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .popup-emp-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 800;
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        .popup-emp-info {
-            flex: 1;
-        }
-
-        .popup-emp-full {
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .popup-emp-abbr {
-            font-size: 10px;
-            color: #64748B;
-        }
-
-        .popup-check {
-            margin-left: auto;
-            font-size: 14px;
-        }
-
-        .popup-empty {
-            padding: 16px 14px;
-            color: #475569;
             font-size: 12px;
         }
 
-        /* Settings Tab */
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        .cell-btn:hover {
+            border-color: #475569;
+            background: #0F172A;
         }
 
-        .card {
+        .cell-btn.assigned {
+            border: 2px solid;
+            background: var(--emp-light);
+            color: var(--emp-text);
+            border-color: var(--emp-color);
+        }
+
+        .emp-name {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .emp-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: var(--emp-color);
+            color: white;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
             background: #1E293B;
             border: 1px solid #334155;
             border-radius: 12px;
-            padding: 20px;
+            padding: 16px;
         }
 
-        .card-title {
-            font-size: 14px;
+        .settings-title {
+            font-size: 16px;
             font-weight: 700;
-            color: #CBD5E1;
-            margin-bottom: 16px;
-            letter-spacing: 0.3px;
-        }
-
-        .label {
-            font-size: 11px;
-            color: #64748B;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            background: #334155;
-            color: #94A3B8;
-            transition: all 0.15s;
-            font-family: inherit;
-        }
-
-        .btn:hover {
-            opacity: 0.8;
-        }
-
-        .btn.primary {
-            background: #3B82F6;
-            color: #fff;
-        }
-
-        .btn.success {
-            background: #10B981;
-            color: #fff;
-        }
-
-        .btn.danger {
-            background: #450A0A;
-            color: #EF4444;
-        }
-
-        .btn.sm {
-            padding: 3px 8px;
-            font-size: 11px;
-        }
-
-        .btn.sm.save {
-            background: #10B981;
-            color: #fff;
+            color: #F1F5F9;
+            margin-bottom: 12px;
         }
 
         .input-group {
             display: flex;
             gap: 8px;
             margin-bottom: 12px;
+            flex-wrap: wrap;
         }
 
-        input[type="text"] {
-            flex: 1;
+        input, select {
             padding: 8px 12px;
-            border-radius: 8px;
-            background: #0F172A;
             border: 1px solid #334155;
+            border-radius: 6px;
+            background: #0F172A;
             color: #E2E8F0;
-            font-size: 13px;
-            outline: none;
             font-family: inherit;
+            font-size: 13px;
         }
 
-        input[type="text"]:focus {
+        input:focus, select:focus {
+            outline: none;
             border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .edit-input {
-            padding: 4px 8px !important;
-            font-size: 12px !important;
+        .add-btn {
+            padding: 8px 16px;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.15s;
         }
 
-        .items-list {
+        .add-btn:hover {
+            background: #2563EB;
+        }
+
+        .item-list {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-height: 280px;
-            overflow-y: auto;
+            gap: 8px;
         }
 
         .item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            padding: 10px 12px;
             background: #0F172A;
-            border-radius: 8px;
-            padding: 8px 10px;
-        }
-
-        .item-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 800;
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #E2E8F0;
-        }
-
-        .item-abbr {
-            font-size: 10px;
-            color: #64748B;
-        }
-
-        .empty-message {
-            color: #475569;
-            font-size: 12px;
-            text-align: center;
-            padding: 16px;
-        }
-
-        .shift-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #0F172A;
-            border-radius: 8px;
-            padding: 8px 10px;
-        }
-
-        .shift-color-bar {
-            width: 8px;
-            height: 32px;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-
-        .shift-item-info {
-            flex: 1;
-        }
-
-        .shift-item-label {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .shift-item-time {
-            font-size: 10px;
-            color: #64748B;
-        }
-
-        .shift-limit-warning {
-            background: #1A1200;
-            border: 1px solid #78350F;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 12px;
-            font-size: 12px;
-            color: #FCD34D;
-        }
-
-        .day-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .day-btn {
-            padding: 6px 10px;
+            border: 1px solid #334155;
             border-radius: 6px;
+        }
+
+        .item-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .remove-btn {
+            padding: 4px 10px;
+            background: #EF4444;
+            color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: 600;
             font-size: 12px;
-            background: #334155;
-            color: #94A3B8;
             transition: all 0.15s;
-            font-family: inherit;
         }
 
-        .day-btn.active {
-            background: #8B5CF6;
-            color: #fff;
+        .remove-btn:hover {
+            background: #DC2626;
         }
 
-        .toast {
+        .popup {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10B981;
-            color: #fff;
-            padding: 12px 20px;
+            background: #1E293B;
+            border: 1px solid #334155;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.3);
-            display: none;
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            min-width: 200px;
         }
 
-        .toast.show {
+        .popup-btn {
             display: block;
+            width: 100%;
+            padding: 10px 12px;
+            background: transparent;
+            color: #E2E8F0;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: all 0.15s;
+            border-bottom: 1px solid #334155;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .popup-btn:last-child {
+            border-bottom: none;
+        }
+
+        .popup-btn:hover {
+            background: #0F172A;
+            color: #3B82F6;
+        }
+
+        .popup-btn.danger {
+            color: #EF4444;
         }
 
         @media (max-width: 768px) {
             .header {
+                padding: 12px 16px;
+            }
+
+            .header-title .title {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .table-wrapper {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px 4px;
+                min-width: 80px;
+            }
+
+            .input-group {
                 flex-direction: column;
-                align-items: flex-start;
             }
 
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-
-            table {
-                min-width: 500px;
-            }
-
-            .export-bar {
-                flex-direction: column;
-            }
-
-            .export-btn, .import-btn {
+            input, select {
                 width: 100%;
-                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <div class="header-title">
             <div class="subtitle">BP SNOOKER CLUB</div>
             <div class="title">ตารางงานพนักงาน</div>
         </div>
         <div class="tab-buttons">
-            <button class="tab-btn active" data-tab="schedule">📅 ตาราง</button>
-            <button class="tab-btn" data-tab="settings">⚙️ ตั้งค่า</button>
+            <button class="tab-btn active" onclick="switchTab('schedule')">📅 ตาราง</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ ตั้งค่า</button>
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="container">
         <!-- Schedule Tab -->
         <div id="schedule" class="tab-content active">
             <div class="export-bar">
-                <button class="export-btn" onclick="app.exportToExcel()">📊 Export XLSX</button>
-                <button class="import-btn" onclick="document.getElementById('importFile').click()">📁 Import JSON</button>
-                <button class="export-btn" onclick="app.exportToJson()" style="background: #8B5CF6;">💾 Backup JSON</button>
-                <input type="file" id="importFile" accept=".json" onchange="app.importFromJson(event)">
+                <button class="export-btn" onclick="exportToExcel()">📥 ดาวน์โหลด Excel</button>
+                <button class="import-btn" onclick="document.getElementById('importFile').click()">📤 นำเข้า Excel</button>
+                <button class="reset-btn" onclick="resetSchedule()">🔄 รีเซ็ต</button>
+                <input type="file" id="importFile" accept=".xlsx,.xls" onchange="importFromExcel(event)">
             </div>
 
             <div class="info-bar">
-                <div class="chip"><span>📆</span> <span id="days-info">7 วัน/สัปดาห์</span></div>
-                <div class="chip"><span>👤</span> <span id="emp-info">3 พนักงาน</span></div>
-                <div class="chip"><span>⏱</span> <span id="shifts-info">3 ช่วงเวลา</span></div>
-                <div class="chip"><span>✅</span> <span id="schedule-info">0 กะที่จัด</span></div>
+                <div class="chip">📊 สัปดาห์: <span id="weekInfo">7</span> วัน</div>
+                <div class="chip">👥 พนักงาน: <span id="empCount">0</span> คน</div>
+                <div class="chip">⏰ กะ: <span id="shiftCount">0</span> กะ</div>
+                <div class="chip">📋 ทั้งหมด: <span id="totalSchedule">0</span> ตำแหน่ง</div>
             </div>
 
             <div class="table-wrapper">
-                <table id="scheduleTable">
-                    <thead>
-                        <tr id="headerRow">
-                            <th>ช่วงเวลา</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                    </tbody>
-                </table>
+                <table id="scheduleTable"></table>
             </div>
-
-            <div id="summarySection"></div>
         </div>
 
         <!-- Settings Tab -->
         <div id="settings" class="tab-content">
-            <div class="settings-grid">
-                <!-- Week Settings -->
-                <div class="card">
-                    <div class="card-title">📆 ตั้งค่าสัปดาห์</div>
-                    <div class="label">จำนวนวันต่อสัปดาห์</div>
-                    <div class="button-group" id="daysPerWeekBtns"></div>
-                    <div class="label">วันเริ่มต้นสัปดาห์</div>
-                    <div class="day-buttons" id="startDayBtns"></div>
+            <div class="settings-section">
+                <div class="settings-title">📆 วันในสัปดาห์</div>
+                <div class="input-group">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        จำนวนวัน:
+                        <select id="daysPerWeek" onchange="updateSettings()">
+                            <option value="5">5 วัน</option>
+                            <option value="6">6 วัน</option>
+                            <option value="7" selected>7 วัน</option>
+                        </select>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        วันเริ่มต้น:
+                        <select id="startDay" onchange="updateSettings()">
+                            <option value="1">จันทร์</option>
+                            <option value="0">อาทิตย์</option>
+                            <option value="2">อังคาร</option>
+                        </select>
+                    </label>
                 </div>
+            </div>
 
-                <!-- Employees -->
-                <div class="card">
-                    <div class="card-title">👤 จัดการพนักงาน</div>
-                    <div class="input-group">
-                        <input type="text" id="newEmpName" placeholder="ชื่อพนักงานใหม่...">
-                        <button class="btn primary" onclick="app.addEmployee()">+</button>
-                    </div>
-                    <div class="items-list" id="employeesList"></div>
+            <div class="settings-section">
+                <div class="settings-title">👥 พนักงาน</div>
+                <div class="input-group">
+                    <input type="text" id="newEmpName" placeholder="ชื่อพนักงาน">
+                    <button class="add-btn" onclick="addEmployee()">➕ เพิ่ม</button>
                 </div>
+                <div class="item-list" id="employeeList"></div>
+            </div>
 
-                <!-- Shifts -->
-                <div class="card">
-                    <div class="card-title" id="shiftsTitle">⏱ ช่วงเวลา (0/6)</div>
-                    <div id="shiftWarning"></div>
-                    <div id="shiftInputs"></div>
-                    <div class="items-list" id="shiftsList"></div>
+            <div class="settings-section">
+                <div class="settings-title">⏰ กะ</div>
+                <div class="input-group">
+                    <input type="text" id="newShiftLabel" placeholder="ชื่อกะ (เช่น เช้า)">
+                    <input type="text" id="newShiftTime" placeholder="เวลา (เช่น 08:00–12:00)">
+                    <button class="add-btn" onclick="addShift()">➕ เพิ่ม</button>
                 </div>
+                <div class="item-list" id="shiftList"></div>
             </div>
         </div>
     </div>
 
-    <!-- Popup Picker -->
-    <div id="popup" class="popup">
-        <div class="popup-header">เลือกพนักงาน</div>
-        <div class="popup-content" id="popupContent"></div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
+    <div id="popup" class="popup" style="display: none;"></div>
 
     <script>
         // Constants
         const DAY_NAMES = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."];
         const DAY_FULL = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์", "เสาร์"];
-        const SHIFT_COLORS = [
-            { bg: "#3B82F6", light: "#EFF6FF", text: "#1D4ED8" },
-            { bg: "#10B981", light: "#ECFDF5", text: "#065F46" },
-            { bg: "#F59E0B", light: "#FFFBEB", text: "#92400E" },
-            { bg: "#EF4444", light: "#FEF2F2", text: "#991B1B" },
-            { bg: "#8B5CF6", light: "#F5F3FF", text: "#5B21B6" },
-            { bg: "#EC4899", light: "#FDF2F8", text: "#9D174D" },
-        ];
-
         const EMPLOYEE_COLORS = [
-            "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6",
-            "#EC4899", "#06B6D4", "#84CC16", "#F97316", "#6366F1",
-            "#14B8A6", "#F43F5E", "#A855F7", "#22C55E", "#FBBF24",
+            "#3B82F6","#10B981","#F59E0B","#EF4444","#8B5CF6",
+            "#EC4899","#06B6D4","#84CC16","#F97316","#6366F1",
+            "#14B8A6","#F43F5E","#A855F7","#22C55E","#FBBF24",
+        ];
+        const DEFAULT_EMPLOYEES = [
+            { id: 1, name: "สมชาย ใจดี" },
+            { id: 2, name: "มานี รักเรียน" },
+            { id: 3, name: "วิทยา สุขใส" },
+        ];
+        const DEFAULT_SHIFTS = [
+            { id: 1, label: "เช้า", time: "08:00–12:00" },
+            { id: 2, label: "บ่าย", time: "13:00–17:00" },
+            { id: 3, label: "ดึก", time: "18:00–22:00" },
         ];
 
-        // Helper functions
-        function abbreviateName(name) {
-            if (!name) return "";
-            const parts = name.trim().split(/\s+/);
-            if (parts.length === 1) {
-                return parts[0].length > 6 ? parts[0].slice(0, 5) + "." : parts[0];
+        // State
+        let daysPerWeek = 7;
+        let startDay = 1;
+        let employees = JSON.parse(localStorage.getItem('employees')) || DEFAULT_EMPLOYEES;
+        let shifts = JSON.parse(localStorage.getItem('shifts')) || DEFAULT_SHIFTS;
+        let schedule = JSON.parse(localStorage.getItem('schedule')) || {};
+        let empIdRef = Math.max(...employees.map(e => e.id), 3) + 1;
+        let shiftIdRef = Math.max(...shifts.map(s => s.id), 3) + 1;
+
+        function saveState() {
+            localStorage.setItem('employees', JSON.stringify(employees));
+            localStorage.setItem('shifts', JSON.stringify(shifts));
+            localStorage.setItem('schedule', JSON.stringify(schedule));
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function updateSettings() {
+            daysPerWeek = parseInt(document.getElementById('daysPerWeek').value);
+            startDay = parseInt(document.getElementById('startDay').value);
+            renderSchedule();
+        }
+
+        function addEmployee() {
+            const name = document.getElementById('newEmpName').value.trim();
+            if (!name) return;
+            employees.push({ id: empIdRef++, name });
+            document.getElementById('newEmpName').value = '';
+            saveState();
+            renderSettings();
+            renderSchedule();
+        }
+
+        function removeEmployee(id) {
+            employees = employees.filter(e => e.id !== id);
+            Object.keys(schedule).forEach(k => {
+                if (schedule[k] === id) delete schedule[k];
+            });
+            saveState();
+            renderSettings();
+            renderSchedule();
+        }
+
+        function addShift() {
+            const label = document.getElementById('newShiftLabel').value.trim();
+            const time = document.getElementById('newShiftTime').value.trim();
+            if (!label || !time) return;
+            shifts.push({ id: shiftIdRef++, label, time });
+            document.getElementById('newShiftLabel').value = '';
+            document.getElementById('newShiftTime').value = '';
+            saveState();
+            renderSettings();
+            renderSchedule();
+        }
+
+        function removeShift(id) {
+            shifts = shifts.filter(s => s.id !== id);
+            Object.keys(schedule).forEach(k => {
+                if (k.endsWith(`-${id}`)) delete schedule[k];
+            });
+            saveState();
+            renderSettings();
+            renderSchedule();
+        }
+
+        function getEmpColor(id) {
+            return EMPLOYEE_COLORS[(id - 1) % EMPLOYEE_COLORS.length];
+        }
+
+        function renderSchedule() {
+            const days = Array.from({ length: daysPerWeek }, (_, i) => (startDay + i) % 7);
+            const table = document.getElementById('scheduleTable');
+            table.innerHTML = '';
+
+            // Header
+            const thead = table.createTHead();
+            const headerRow = thead.insertRow();
+            const th = document.createElement('th');
+            th.textContent = 'กะ';
+            headerRow.appendChild(th);
+
+            days.forEach(day => {
+                const th = document.createElement('th');
+                th.innerHTML = `<div class="day-header-full">${DAY_FULL[day]}</div><div class="day-header-abbr">${DAY_NAMES[day]}</div>`;
+                headerRow.appendChild(th);
+            });
+
+            // Body
+            const tbody = table.createTBody();
+            shifts.forEach(shift => {
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.innerHTML = `<strong>${shift.label}</strong><div style="font-size:10px;color:#64748B">${shift.time}</div>`;
+
+                days.forEach((_, dayIdx) => {
+                    const cell = row.insertCell();
+                    const key = `${dayIdx}-${shift.id}`;
+                    const empId = schedule[key];
+                    const emp = employees.find(e => e.id === empId);
+
+                    const btn = document.createElement('button');
+                    btn.className = 'cell-btn';
+                    if (emp) {
+                        const color = getEmpColor(empId);
+                        btn.classList.add('assigned');
+                        btn.style.setProperty('--emp-color', color);
+                        btn.style.setProperty('--emp-light', color + '20');
+                        btn.style.setProperty('--emp-text', color);
+                        btn.innerHTML = `<span class="emp-name">${emp.name}</span>`;
+                    }
+                    btn.onclick = (e) => showPopup(e, dayIdx, shift.id);
+                    cell.appendChild(btn);
+                });
+            });
+
+            updateStats();
+        }
+
+        function showPopup(e, dayIdx, shiftId) {
+            const popup = document.getElementById('popup');
+            popup.innerHTML = '';
+
+            employees.forEach(emp => {
+                const btn = document.createElement('button');
+                btn.className = 'popup-btn';
+                btn.textContent = emp.name;
+                btn.onclick = () => assignEmployee(dayIdx, shiftId, emp.id);
+                popup.appendChild(btn);
+            });
+
+            const clearBtn = document.createElement('button');
+            clearBtn.className = 'popup-btn danger';
+            clearBtn.textContent = 'ลบ';
+            clearBtn.onclick = () => assignEmployee(dayIdx, shiftId, null);
+            popup.appendChild(clearBtn);
+
+            popup.style.display = 'block';
+            popup.style.left = e.pageX + 'px';
+            popup.style.top = e.pageY + 'px';
+
+            setTimeout(() => {
+                document.addEventListener('click', closePopup);
+            }, 0);
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.removeEventListener('click', closePopup);
+        }
+
+        function assignEmployee(dayIdx, shiftId, empId) {
+            const key = `${dayIdx}-${shiftId}`;
+            if (empId === null) {
+                delete schedule[key];
+            } else {
+                schedule[key] = empId;
             }
-            const first = parts[0].slice(0, 4);
-            const last = parts[parts.length - 1][0].toUpperCase();
-            return `${first} ${last}.`;
+            saveState();
+            renderSchedule();
+            closePopup();
         }
 
-        function showToast(message, type = "success") {
-            const toast = document.getElementById("toast");
-            toast.textContent = message;
-            toast.style.background = type === "success" ? "#10B981" : "#EF4444";
-            toast.classList.add("show");
-            setTimeout(() => toast.classList.remove("show"), 3000);
+        function updateStats() {
+            document.getElementById('weekInfo').textContent = daysPerWeek;
+            document.getElementById('empCount').textContent = employees.length;
+            document.getElementById('shiftCount').textContent = shifts.length;
+            document.getElementById('totalSchedule').textContent = Object.keys(schedule).length;
         }
 
-        // Main App Object
-        const app = {
-            state: {
-                daysPerWeek: 7,
-                startDay: 1,
-                employees: [
-                    { id: 1, name: "สมชาย ใจดี" },
-                    { id: 2, name: "มานี รักเรียน" },
-                    { id: 3, name: "วิทยา สุขใส" },
-                ],
-                shifts: [
-                    { id: 1, label: "เช้า", time: "08:00–12:00" },
-                    { id: 2, label: "บ่าย", time: "13:00–17:00" },
-                    { id: 3, label: "ดึก", time: "18:00–22:00" },
-                ],
-                schedule: {},
-                popup: null,
-                activeTab: "schedule",
-                empIdRef: 100,
-                shiftIdRef: 10,
-                editingEmp: null,
-                editingShift: null,
-                empEditVal: "",
-                shiftEditLabel: "",
-                shiftEditTime: "",
-            },
-
-            empColor(id) {
-                return EMPLOYEE_COLORS[(id - 1) % EMPLOYEE_COLORS.length];
-            },
-
-            cellKey(dayIdx, shiftId) {
-                return `${dayIdx}-${shiftId}`;
-            },
-
-            getCellEmp(dayIdx, shiftId) {
-                const empId = this.state.schedule[this.cellKey(dayIdx, shiftId)];
-                return this.state.employees.find((e) => e.id === empId) || null;
-            },
-
-            getDays() {
-                return Array.from({ length: this.state.daysPerWeek }, (_, i) => (this.state.startDay + i) % 7);
-            },
-
-            assignEmployee(dayIdx, shiftId, empId) {
-                const key = this.cellKey(dayIdx, shiftId);
-                if (empId === null) {
-                    delete this.state.schedule[key];
-                } else {
-                    this.state.schedule[key] = empId;
-                }
-                this.hidePopup();
-                this.render();
-            },
-
-            addEmployee() {
-                const input = document.getElementById("newEmpName");
-                const name = input.value.trim();
-                if (!name) return;
-                this.state.empIdRef++;
-                this.state.employees.push({ id: this.state.empIdRef, name });
-                input.value = "";
-                this.render();
-            },
-
-            removeEmployee(id) {
-                this.state.employees = this.state.employees.filter((x) => x.id !== id);
-                Object.keys(this.state.schedule).forEach((k) => {
-                    if (this.state.schedule[k] === id) delete this.state.schedule[k];
-                });
-                this.render();
-            },
-
-            editEmployee(id) {
-                this.state.editingEmp = id;
-                const emp = this.state.employees.find((e) => e.id === id);
-                this.state.empEditVal = emp.name;
-                this.render();
-                setTimeout(() => {
-                    document.querySelector(`input[data-emp-edit="${id}"]`)?.focus();
-                }, 0);
-            },
-
-            saveEmployee(id) {
-                const emp = this.state.employees.find((e) => e.id === id);
-                if (emp) emp.name = this.state.empEditVal;
-                this.state.editingEmp = null;
-                this.render();
-            },
-
-            addShift() {
-                if (this.state.shifts.length >= 6) return;
-                const label = document.getElementById("newShiftLabel").value.trim();
-                const time = document.getElementById("newShiftTime").value.trim();
-                if (!label || !time) return;
-                this.state.shiftIdRef++;
-                this.state.shifts.push({ id: this.state.shiftIdRef, label, time });
-                document.getElementById("newShiftLabel").value = "";
-                document.getElementById("newShiftTime").value = "";
-                this.render();
-            },
-
-            removeShift(id) {
-                this.state.shifts = this.state.shifts.filter((x) => x.id !== id);
-                Object.keys(this.state.schedule).forEach((k) => {
-                    if (k.endsWith(`-${id}`)) delete this.state.schedule[k];
-                });
-                this.render();
-            },
-
-            editShift(id) {
-                this.state.editingShift = id;
-                const shift = this.state.shifts.find((s) => s.id === id);
-                this.state.shiftEditLabel = shift.label;
-                this.state.shiftEditTime = shift.time;
-                this.render();
-            },
-
-            saveShift(id) {
-                const shift = this.state.shifts.find((s) => s.id === id);
-                if (shift) {
-                    shift.label = this.state.shiftEditLabel;
-                    shift.time = this.state.shiftEditTime;
-                }
-                this.state.editingShift = null;
-                this.render();
-            },
-
-            setDaysPerWeek(days) {
-                this.state.daysPerWeek = days;
-                this.render();
-            },
-
-            setStartDay(day) {
-                this.state.startDay = day;
-                this.render();
-            },
-
-            showPopup(dayIdx, shiftId, x, y) {
-                this.state.popup = { dayIdx, shiftId, x, y };
-                this.renderPopup();
-            },
-
-            hidePopup() {
-                this.state.popup = null;
-                document.getElementById("popup").classList.remove("visible");
-            },
-
-            // Export to Excel
-            exportToExcel() {
-                const days = this.getDays();
-                const data = [];
-
-                // Header row
-                const header = ["ช่วงเวลา"];
-                days.forEach((d) => header.push(DAY_FULL[d]));
-                data.push(header);
-
-                // Data rows
-                this.state.shifts.forEach((shift) => {
-                    const row = [`${shift.label} (${shift.time})`];
-                    days.forEach((d, di) => {
-                        const emp = this.getCellEmp(di, shift.id);
-                        row.push(emp ? emp.name : "");
-                    });
-                    data.push(row);
-                });
-
-                // Add summary
-                data.push([]);
-                data.push(["สรุปกะพนักงาน"]);
-                const empShiftCount = {};
-                this.state.employees.forEach((e) => (empShiftCount[e.id] = 0));
-                Object.values(this.state.schedule).forEach((id) => {
-                    if (empShiftCount[id] !== undefined) empShiftCount[id]++;
-                });
-
-                this.state.employees.forEach((emp) => {
-                    data.push([emp.name, `${empShiftCount[emp.id] || 0} กะ`]);
-                });
-
-                // Create workbook
-                const ws = XLSX.utils.aoa_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "ตารางงาน");
-
-                // Set column width
-                ws["!cols"] = [
-                    { wch: 20 },
-                    ...days.map(() => ({ wch: 18 }))
-                ];
-
-                // Download
-                const filename = `ตารางงาน_${new Date().toLocaleDateString('th-TH')}.xlsx`;
-                XLSX.writeFile(wb, filename);
-                showToast("✅ Export XLSX สำเร็จ!");
-            },
-
-            // Export to JSON
-            exportToJson() {
-                const backup = {
-                    timestamp: new Date().toISOString(),
-                    daysPerWeek: this.state.daysPerWeek,
-                    startDay: this.state.startDay,
-                    employees: this.state.employees,
-                    shifts: this.state.shifts,
-                    schedule: this.state.schedule,
-                };
-
-                const json = JSON.stringify(backup, null, 2);
-                const blob = new Blob([json], { type: "application/json" });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement("a");
-                link.href = url;
-                link.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
-                URL.revokeObjectURL(url);
-                showToast("💾 Backup JSON สำเร็จ!");
-            },
-
-            // Import from JSON
-            importFromJson(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        
-                        // Validate data
-                        if (!data.employees || !data.shifts || !data.schedule) {
-                            throw new Error("ไฟล์ JSON ไม่ถูกต้อง");
-                        }
-
-                        // Import
-                        this.state.daysPerWeek = data.daysPerWeek || 7;
-                        this.state.startDay = data.startDay || 1;
-                        this.state.employees = data.employees;
-                        this.state.shifts = data.shifts;
-                        this.state.schedule = data.schedule;
-
-                        // Update refs
-                        if (data.employees.length > 0) {
-                            this.state.empIdRef = Math.max(...data.employees.map(e => e.id)) + 1;
-                        }
-                        if (data.shifts.length > 0) {
-                            this.state.shiftIdRef = Math.max(...data.shifts.map(s => s.id)) + 1;
-                        }
-
-                        this.render();
-                        showToast("📁 Import JSON สำเร็จ!");
-                    } catch (error) {
-                        showToast("❌ " + error.message, "error");
-                    }
-                };
-                reader.readAsText(file);
-                event.target.value = "";
-            },
-
-            render() {
-                this.renderScheduleTab();
-                this.renderSettingsTab();
-                this.updateInfoBar();
-            },
-
-            renderScheduleTab() {
-                const days = this.getDays();
-                const headerRow = document.getElementById("headerRow");
-                const tableBody = document.getElementById("tableBody");
-
-                // Clear and rebuild header
-                headerRow.innerHTML = "<th>ช่วงเวลา</th>";
-                days.forEach((d, i) => {
-                    const th = document.createElement("th");
-                    th.innerHTML = `
-                        <div class="day-header-full">${DAY_FULL[d]}</div>
-                        <div class="day-header-abbr">${DAY_NAMES[d]}</div>
-                    `;
-                    headerRow.appendChild(th);
-                });
-
-                // Build body
-                tableBody.innerHTML = "";
-                if (this.state.shifts.length === 0) {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td colspan="${days.length + 1}" style="padding: 32px; text-align: center; color: #475569;">
-                            ยังไม่มีช่วงเวลา — ไปที่ ⚙️ ตั้งค่า เพื่อเพิ่ม
-                        </td>
-                    `;
-                    tableBody.appendChild(tr);
-                } else {
-                    this.state.shifts.forEach((shift, si) => {
-                        const sc = SHIFT_COLORS[si % SHIFT_COLORS.length];
-                        const tr = document.createElement("tr");
-                        
-                        // Shift label cell
-                        const labelTd = document.createElement("td");
-                        labelTd.innerHTML = `
-                            <div class="shift-label" style="background: ${sc.bg}; color: #fff;">${shift.label}</div>
-                            <div class="shift-time">${shift.time}</div>
-                        `;
-                        tr.appendChild(labelTd);
-
-                        // Day cells
-                        days.forEach((d, di) => {
-                            const td = document.createElement("td");
-                            const emp = this.getCellEmp(di, shift.id);
-                            
-                            const button = document.createElement("button");
-                            button.className = `cell-button ${emp ? "filled" : ""}`;
-                            if (emp) {
-                                const empColor = this.empColor(emp.id);
-                                button.style.background = empColor + "22";
-                                button.addEventListener("mouseenter", (e) => {
-                                    e.currentTarget.style.background = empColor + "44";
-                                });
-                                button.addEventListener("mouseleave", (e) => {
-                                    e.currentTarget.style.background = empColor + "22";
-                                });
-                            }
-
-                            if (emp) {
-                                button.innerHTML = `
-                                    <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
-                                    <div class="emp-name-cell" style="color: ${this.empColor(emp.id)};">${abbreviateName(emp.name)}</div>
-                                `;
-                            } else {
-                                button.innerHTML = '<div class="empty-cell-icon">+</div>';
-                            }
-
-                            button.addEventListener("click", (e) => {
-                                const rect = e.currentTarget.getBoundingClientRect();
-                                this.showPopup(di, shift.id, rect.left, rect.bottom + window.scrollY + 6);
-                            });
-
-                            td.appendChild(button);
-                            tr.appendChild(td);
-                        });
-
-                        tableBody.appendChild(tr);
-                    });
-                }
-
-                // Summary section
-                this.renderSummary();
-            },
-
-            renderSummary() {
-                const empShiftCount = {};
-                this.state.employees.forEach((e) => (empShiftCount[e.id] = 0));
-                Object.values(this.state.schedule).forEach((id) => {
-                    if (empShiftCount[id] !== undefined) empShiftCount[id]++;
-                });
-
-                const summarySection = document.getElementById("summarySection");
-                if (this.state.employees.length === 0) {
-                    summarySection.innerHTML = "";
-                    return;
-                }
-
-                let html = '<div class="summary-title">สรุปกะพนักงาน</div><div class="summary-grid">';
-                this.state.employees.forEach((emp) => {
-                    html += `
-                        <div class="summary-item">
-                            <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
-                            <div>
-                                <div class="summary-emp-name">${abbreviateName(emp.name)}</div>
-                                <div class="summary-emp-count">${empShiftCount[emp.id] || 0} กะ</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += "</div>";
-                summarySection.innerHTML = html;
-            },
-
-            renderSettingsTab() {
-                // Days per week buttons
-                const daysPerWeekBtns = document.getElementById("daysPerWeekBtns");
-                daysPerWeekBtns.innerHTML = "";
-                [5, 6, 7].forEach((n) => {
-                    const btn = document.createElement("button");
-                    btn.className = `btn ${this.state.daysPerWeek === n ? "primary" : ""}`;
-                    btn.textContent = `${n} วัน`;
-                    btn.onclick = () => this.setDaysPerWeek(n);
-                    daysPerWeekBtns.appendChild(btn);
-                });
-
-                // Start day buttons
-                const startDayBtns = document.getElementById("startDayBtns");
-                startDayBtns.innerHTML = "";
-                DAY_FULL.forEach((d, i) => {
-                    const btn = document.createElement("button");
-                    btn.className = `day-btn ${this.state.startDay === i ? "active" : ""}`;
-                    btn.textContent = d;
-                    btn.onclick = () => this.setStartDay(i);
-                    startDayBtns.appendChild(btn);
-                });
-
-                // Employees list
-                const employeesList = document.getElementById("employeesList");
-                employeesList.innerHTML = "";
-                if (this.state.employees.length === 0) {
-                    employeesList.innerHTML = '<div class="empty-message">ยังไม่มีพนักงาน</div>';
-                } else {
-                    this.state.employees.forEach((emp) => {
-                        const div = document.createElement("div");
-                        div.className = "item";
-
-                        if (this.state.editingEmp === emp.id) {
-                            div.innerHTML = `
-                                <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
-                                <input type="text" class="edit-input" data-emp-edit="${emp.id}" value="${this.state.empEditVal}">
-                                <button class="btn sm save" onclick="app.handleEmpEditChange('${emp.id}', true)">บันทึก</button>
-                                <button class="btn sm" onclick="app.state.editingEmp = null; app.render();">ยกเลิก</button>
-                            `;
-                        } else {
-                            div.innerHTML = `
-                                <div class="emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
-                                <div class="item-info">
-                                    <div class="item-name">${emp.name}</div>
-                                    <div class="item-abbr">ย่อ: ${abbreviateName(emp.name)}</div>
-                                </div>
-                                <button class="btn sm" onclick="app.editEmployee(${emp.id})">แก้ไข</button>
-                                <button class="btn sm danger" onclick="app.removeEmployee(${emp.id})">ลบ</button>
-                            `;
-                        }
-                        employeesList.appendChild(div);
-                    });
-                }
-
-                // Shifts
-                const shiftsTitle = document.getElementById("shiftsTitle");
-                shiftsTitle.textContent = `⏱ ช่วงเวลา (${this.state.shifts.length}/6)`;
-
-                const shiftWarning = document.getElementById("shiftWarning");
-                if (this.state.shifts.length >= 6) {
-                    shiftWarning.innerHTML = '<div class="shift-limit-warning">⚠️ ถึงขีดจำกัด 6 ช่วงเวลาแล้ว</div>';
-                } else {
-                    shiftWarning.innerHTML = "";
-                }
-
-                const shiftInputs = document.getElementById("shiftInputs");
-                if (this.state.shifts.length < 6) {
-                    shiftInputs.innerHTML = `
-                        <div style="margin-bottom: 12px;">
-                            <div class="input-group">
-                                <input type="text" id="newShiftLabel" placeholder="ชื่อกะ เช่น เช้า">
-                            </div>
-                            <div class="input-group">
-                                <input type="text" id="newShiftTime" placeholder="เวลา เช่น 08:00–17:00">
-                                <button class="btn success" onclick="app.addShift()">+</button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    shiftInputs.innerHTML = "";
-                }
-
-                const shiftsList = document.getElementById("shiftsList");
-                shiftsList.innerHTML = "";
-                if (this.state.shifts.length === 0) {
-                    shiftsList.innerHTML = '<div class="empty-message">ยังไม่มีช่วงเวลา</div>';
-                } else {
-                    this.state.shifts.forEach((shift, si) => {
-                        const sc = SHIFT_COLORS[si % SHIFT_COLORS.length];
-                        const div = document.createElement("div");
-                        div.className = "shift-item";
-
-                        if (this.state.editingShift === shift.id) {
-                            div.innerHTML = `
-                                <div class="shift-color-bar" style="background: ${sc.bg};"></div>
-                                <input type="text" class="edit-input" value="${this.state.shiftEditLabel}" onchange="app.state.shiftEditLabel = this.value;">
-                                <input type="text" class="edit-input" value="${this.state.shiftEditTime}" onchange="app.state.shiftEditTime = this.value;" style="flex: 1;">
-                                <button class="btn sm save" onclick="app.saveShift(${shift.id})">บันทึก</button>
-                                <button class="btn sm" onclick="app.state.editingShift = null; app.render();">ยกเลิก</button>
-                            `;
-                        } else {
-                            div.innerHTML = `
-                                <div class="shift-color-bar" style="background: ${sc.bg};"></div>
-                                <div class="shift-item-info">
-                                    <div class="shift-item-label" style="color: ${sc.bg};">${shift.label}</div>
-                                    <div class="shift-item-time">${shift.time}</div>
-                                </div>
-                                <button class="btn sm" onclick="app.editShift(${shift.id})">แก้ไข</button>
-                                <button class="btn sm danger" onclick="app.removeShift(${shift.id})">ลบ</button>
-                            `;
-                        }
-                        shiftsList.appendChild(div);
-                    });
-                }
-            },
-
-            renderPopup() {
-                if (!this.state.popup) return;
-
-                const popup = this.state.popup;
-                const popupEl = document.getElementById("popup");
-                const content = document.getElementById("popupContent");
-
-                let html = `
-                    <button class="popup-btn clear" onclick="app.assignEmployee(${popup.dayIdx}, ${popup.shiftId}, null)">
-                        <span style="font-size: 16px;">✕</span> ว่าง (ลบออก)
-                    </button>
+        function renderSettings() {
+            // Employees
+            const empList = document.getElementById('employeeList');
+            empList.innerHTML = '';
+            employees.forEach(emp => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `
+                    <div class="item-label">
+                        <div class="color-box" style="background: ${getEmpColor(emp.id)}"></div>
+                        <span>${emp.name}</span>
+                    </div>
+                    <button class="remove-btn" onclick="removeEmployee(${emp.id})">ลบ</button>
                 `;
+                empList.appendChild(item);
+            });
 
-                this.state.employees.forEach((emp) => {
-                    const selected = this.state.schedule[this.cellKey(popup.dayIdx, popup.shiftId)] === emp.id;
-                    html += `
-                        <button class="popup-btn ${selected ? "selected" : ""}" onclick="app.assignEmployee(${popup.dayIdx}, ${popup.shiftId}, ${emp.id})">
-                            <div class="popup-emp-avatar" style="background: ${this.empColor(emp.id)};">${emp.name.charAt(0)}</div>
-                            <div class="popup-emp-info">
-                                <div class="popup-emp-full">${emp.name}</div>
-                                <div class="popup-emp-abbr">${abbreviateName(emp.name)}</div>
-                            </div>
-                            ${selected ? `<span class="popup-check" style="color: ${this.empColor(emp.id)};">✓</span>` : ""}
-                        </button>
-                    `;
+            // Shifts
+            const shiftList = document.getElementById('shiftList');
+            shiftList.innerHTML = '';
+            shifts.forEach(shift => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `
+                    <div class="item-label">
+                        <strong>${shift.label}</strong>
+                        <span style="color: #64748B">${shift.time}</span>
+                    </div>
+                    <button class="remove-btn" onclick="removeShift(${shift.id})">ลบ</button>
+                `;
+                shiftList.appendChild(item);
+            });
+        }
+
+        function exportToExcel() {
+            const data = [];
+            const days = Array.from({ length: daysPerWeek }, (_, i) => (startDay + i) % 7);
+
+            // Header
+            const headers = ['กะ', ...days.map(d => DAY_FULL[d])];
+            data.push(headers);
+
+            // Data
+            shifts.forEach(shift => {
+                const row = [shift.label];
+                days.forEach((_, dayIdx) => {
+                    const key = `${dayIdx}-${shift.id}`;
+                    const empId = schedule[key];
+                    const emp = employees.find(e => e.id === empId);
+                    row.push(emp ? emp.name : '');
                 });
+                data.push(row);
+            });
 
-                if (this.state.employees.length === 0) {
-                    html = '<div class="popup-empty">ยังไม่มีพนักงาน</div>';
-                }
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Schedule');
+            XLSX.writeFile(wb, 'schedule.xlsx');
+        }
 
-                content.innerHTML = html;
+        function importFromExcel(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-                const top = Math.min(popup.y, window.innerHeight - 320);
-                const left = Math.min(popup.x, window.innerWidth - 220);
-                popupEl.style.top = top + "px";
-                popupEl.style.left = left + "px";
-                popupEl.classList.add("visible");
-            },
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-            updateInfoBar() {
-                document.getElementById("days-info").textContent = `${this.state.daysPerWeek} วัน/สัปดาห์`;
-                document.getElementById("emp-info").textContent = `${this.state.employees.length} พนักงาน`;
-                document.getElementById("shifts-info").textContent = `${this.state.shifts.length} ช่วงเวลา`;
-                document.getElementById("schedule-info").textContent = `${Object.keys(this.state.schedule).length} กะที่จัด`;
-            },
+                    schedule = {};
+                    const days = Array.from({ length: daysPerWeek }, (_, i) => (startDay + i) % 7);
 
-            handleEmpEditChange(id, save) {
-                const input = document.querySelector(`input[data-emp-edit="${id}"]`);
-                if (input) {
-                    this.state.empEditVal = input.value;
-                }
-                if (save) {
-                    this.saveEmployee(id);
-                }
-            },
+                    for (let i = 1; i < rows.length; i++) {
+                        const shiftLabel = rows[i][0];
+                        const shift = shifts.find(s => s.label === shiftLabel);
+                        if (!shift) continue;
 
-            init() {
-                // Setup tab buttons
-                document.querySelectorAll(".tab-btn").forEach((btn) => {
-                    btn.addEventListener("click", (e) => {
-                        const tab = e.target.dataset.tab;
-                        this.state.activeTab = tab;
-
-                        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
-                        document.querySelectorAll(".tab-content").forEach((tc) => tc.classList.remove("active"));
-
-                        e.target.classList.add("active");
-                        document.getElementById(tab).classList.add("active");
-                    });
-                });
-
-                // Setup popup close on outside click
-                document.addEventListener("mousedown", (e) => {
-                    const popup = document.getElementById("popup");
-                    if (popup && !popup.contains(e.target) && !e.target.closest(".cell-button")) {
-                        this.hidePopup();
+                        for (let j = 1; j < rows[i].length; j++) {
+                            const empName = rows[i][j];
+                            const emp = employees.find(e => e.name === empName);
+                            if (emp) {
+                                const dayIdx = j - 1;
+                                schedule[`${dayIdx}-${shift.id}`] = emp.id;
+                            }
+                        }
                     }
-                });
 
-                // Setup enter key for new employee
-                document.getElementById("newEmpName").addEventListener("keydown", (e) => {
-                    if (e.key === "Enter") this.addEmployee();
-                });
+                    saveState();
+                    renderSchedule();
+                } catch (err) {
+                    alert('ไม่สามารถนำเข้าไฟล์ได้: ' + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
 
-                // Initial render
-                this.render();
-            },
-        };
+        function resetSchedule() {
+            if (confirm('แน่ใจหรือไม่ที่จะรีเซ็ตตารางงาน?')) {
+                schedule = {};
+                saveState();
+                renderSchedule();
+            }
+        }
 
         // Initialize
-        document.addEventListener("DOMContentLoaded", () => {
-            app.init();
-        });
+        renderSchedule();
+        renderSettings();
     </script>
 </body>
 </html>
